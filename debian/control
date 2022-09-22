@@ -1,0 +1,119 @@
+Source: kiconthemes
+Section: libs
+Priority: optional
+Maintainer: Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>
+Uploaders: Aurélien COUDERC <coucouf@debian.org>,
+           Norbert Preining <norbert@preining.info>,
+Build-Depends: cmake (>= 3.16~),
+               debhelper-compat (= 13),
+               doxygen,
+               extra-cmake-modules (>= 5.90.0~),
+               libkf5archive-dev (>= 5.90.0~),
+               libkf5configwidgets-dev (>= 5.90.0~),
+               libkf5coreaddons-dev (>= 5.90.0~),
+               libkf5i18n-dev (>= 5.90.0~),
+               libkf5itemviews-dev (>= 5.90.0~),
+               libkf5widgetsaddons-dev (>= 5.90.0~),
+               libqt5sql5-sqlite,
+               libqt5svg5-dev (>= 5.15.2~),
+               pkg-kde-tools (>= 0.15.15ubuntu1~),
+               qtbase5-dev (>= 5.15.2~),
+               qttools5-dev,
+               qttools5-dev-tools,
+Standards-Version: 4.6.0
+Homepage: https://invent.kde.org/frameworks/kiconthemes
+Vcs-Browser: https://salsa.debian.org/qt-kde-team/kde/kiconthemes
+Vcs-Git: https://salsa.debian.org/qt-kde-team/kde/kiconthemes.git
+Rules-Requires-Root: no
+
+Package: libkf5iconthemes-bin
+Architecture: any
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Description: Support for icon themes
+ Library to use/access icon themes in Qt. These classes
+ are used by the iconloader but can be used by others too.
+ .
+ This package contains runtime binaries.
+
+Package: libkf5iconthemes-data
+Architecture: all
+Multi-Arch: foreign
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Description: Support for icon themes.
+ Library to use/access icon themes in Qt. These classes
+ are used by the iconloader but can be used by others too.
+ .
+ This package contains the data files.
+
+Package: libkf5iconthemes-dev
+Section: libdevel
+Architecture: any
+Depends: libkf5configwidgets-dev (>= 5.90.0~),
+         libkf5i18n-dev (>= 5.90.0~),
+         libkf5iconthemes5 (= ${binary:Version}),
+         libkf5itemviews-dev (>= 5.90.0~),
+         libkf5widgetsaddons-dev (>= 5.90.0~),
+         qtbase5-dev (>= 5.15.2~),
+         ${misc:Depends},
+         ${shlibs:Depends},
+Breaks: kross-dev (<< 5.54),
+        libkf5bookmarks-dev (<< 5.54),
+        libkf5kcmutils-dev (<< 5.54),
+        libkf5kdelibs4support-dev (<< 5.54),
+        libkf5khtml-dev (<< 5.54),
+        libkf5style-dev (<< 5.54),
+        libkf5textwidgets-dev (<< 5.54),
+        libkf5xmlgui-dev (<< 5.54),
+Recommends: libkf5iconthemes-doc (= ${source:Version})
+Description: development files for kiconthemes
+ Library to use/access icon themes in Qt. These classes
+ are used by the iconloader but can be used by others too.
+ .
+ Contains development files for kiconthemes.
+
+Package: libkf5iconthemes-doc
+Architecture: all
+Multi-Arch: foreign
+Depends: ${misc:Depends}
+Description: Support for icon themes (documentation)
+ Library to use/access icon themes in Qt. These classes
+ are used by the iconloader but can be used by others too.
+ .
+ This package contains the qch documentation files.
+Section: doc
+
+Package: libkf5iconthemes5
+Architecture: any
+Multi-Arch: same
+Depends: libkf5iconthemes-data (= ${source:Version}),
+         ${misc:Depends},
+         ${shlibs:Depends},
+Breaks: frameworkintegration (<< 5.28),
+        kdesignerplugin (<< 5.54),
+        kio (<< 5.42),
+        libkf5bookmarks5 (<< 5.54),
+        libkf5declarative5 (<< 5.54),
+        libkf5kcmutils5 (<< 5.54),
+        libkf5kdelibs4support5 (<< 5.54),
+        libkf5kdelibs4support5-bin (<< 5.42),
+        libkf5khtml-bin (<< 5.54),
+        libkf5khtml5 (<< 5.54),
+        libkf5kiofilewidgets5 (<< 5.54),
+        libkf5kiowidgets5 (<< 5.54),
+        libkf5krossui5 (<< 5.54),
+        libkf5newstuff5 (<< 5.54),
+        libkf5parts5 (<< 5.54),
+        libkf5plasma5 (<< 5.54),
+        libkf5plasmaquick5 (<< 5.54),
+        libkf5style5 (<< 5.54),
+        libkf5texteditor5 (<< 5.54),
+        libkf5textwidgets5 (<< 5.54),
+        libkf5wallet-bin (<< 5.54),
+        libkf5xmlgui5 (<< 5.54),
+        plasma-framework (<< 5.54),
+        qml-module-org-kde-kquickcontrolsaddons (<< 5.54),
+        qml-module-org-kde-qqc2desktopstyle (<< 5.54),
+Recommends: libkf5iconthemes-bin (= ${binary:Version})
+Description: Support for icon themes.
+ Library to use/access icon themes in Qt. These classes
+ are used by the iconloader but can be used by others too.

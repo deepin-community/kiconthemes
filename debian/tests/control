@@ -1,0 +1,14 @@
+Tests: testsuite
+Depends: build-essential,
+         dbus (>= 1.8),
+         openbox,
+         oxygen-icon-theme,
+         xauth,
+         xvfb,
+         @,
+         @builddeps@,
+Restrictions: build-needed, allow-stderr
+
+Tests: acc
+Depends: dh-acc, exuberant-ctags, @
+Restrictions: allow-stderr
