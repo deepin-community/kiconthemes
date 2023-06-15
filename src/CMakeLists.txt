@@ -24,6 +24,7 @@ target_sources(KF5IconThemes PRIVATE
     kiconloader.h
     kicontheme.cpp
     kicontheme.h
+    kquickiconprovider.h
 
     hicolor.qrc
     )
@@ -55,11 +56,11 @@ target_link_libraries(KF5IconThemes
   PUBLIC
     Qt${QT_MAJOR_VERSION}::Widgets
   PRIVATE
+    Qt${QT_MAJOR_VERSION}::GuiPrivate
     Qt${QT_MAJOR_VERSION}::Svg
     KF5::Archive       # for KCompressionDevice
     KF5::I18n          # for i18n in KIconDialog
     KF5::WidgetsAddons # for KPixmapSequence family
-    KF5::ItemViews      # for KListWidgetSearchLine
     KF5::ConfigWidgets # for KColorScheme
     KF5::CoreAddons    # for kshareddatacache.h
 )
@@ -81,11 +82,12 @@ ecm_generate_headers(KIconThemes_HEADERS
   KIconLoader
   KIconTheme
   KIconEngine
+  KQuickIconProvider
 
   REQUIRED_HEADERS KIconThemes_HEADERS
 )
 
-install(TARGETS KF5IconThemes EXPORT KF5IconThemesTargets ${KF5_INSTALL_TARGETS_DEFAULT_ARGS})
+install(TARGETS KF5IconThemes EXPORT KF5IconThemesTargets ${KF_INSTALL_TARGETS_DEFAULT_ARGS})
 
 install(FILES
   ${CMAKE_CURRENT_BINARY_DIR}/kiconthemes_export.h

@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kio4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2021-11-30 00:41+0000\n"
+"POT-Creation-Date: 2022-08-09 00:42+0000\n"
 "PO-Revision-Date: 2018-07-09 21:40+0800\n"
 "Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese <zh-l10n@lists.linux.org.tw>\n"
@@ -24,6 +24,13 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Lokalize 2.0\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+
+#: kiconbutton.cpp:82
+#, fuzzy, kde-format
+#| msgid "Select Icon"
+msgctxt "@info:tooltip"
+msgid "Select Icon…"
+msgstr "選擇圖示"
 
 #: kicondialog.cpp:312
 msgid "All"
@@ -112,3 +119,18 @@ msgstr ""
 #| msgid "Select Icon"
 msgid "Search Icons..."
 msgstr "選擇圖示"
+
+#~ msgid "Icon Source"
+#~ msgstr "圖示來源"
+
+#~ msgid "S&ystem icons:"
+#~ msgstr "系統圖示(&Y):"
+
+#~ msgid "O&ther icons:"
+#~ msgstr "其他圖示(&T)："
+
+#~ msgid "&Search:"
+#~ msgstr "搜尋(&S):"
+
+#~ msgid "Search interactively for icon names (e.g. folder)."
+#~ msgstr "互動式搜尋圖示名稱（例如資料夾）。"

@@ -1,1 +1,1 @@
-libkf5iconthemes-bin: binary-without-manpage usr/bin/kiconfinder5
+libkf5iconthemes-bin: no-manual-page [usr/bin/kiconfinder5]
