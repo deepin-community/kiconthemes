@@ -7,10 +7,12 @@
 
 #include "kiconengine.h"
 
+#include "kiconloader_p.h"
 #include <kiconloader.h>
 
 #include "kiconcolors.h"
 #include <KIconTheme>
+#include <QFileInfo>
 #include <QPainter>
 #include <qscopeguard.h>
 
@@ -20,24 +22,25 @@ public:
     QPointer<KIconLoader> mIconLoader;
     bool mCustomColors = false;
     KIconColors mColors;
+    QString mActualIconName;
 };
 
 KIconEngine::KIconEngine(const QString &iconName, KIconLoader *iconLoader, const QStringList &overlays)
     : mIconName(iconName)
     , mOverlays(overlays)
-    , d(new KIconEnginePrivate{iconLoader, false, {}})
+    , d(new KIconEnginePrivate{iconLoader, false, {}, {}})
 {
 }
 
 KIconEngine::KIconEngine(const QString &iconName, KIconLoader *iconLoader)
     : mIconName(iconName)
-    , d(new KIconEnginePrivate{iconLoader, false, {}})
+    , d(new KIconEnginePrivate{iconLoader, false, {}, {}})
 {
 }
 
 KIconEngine::KIconEngine(const QString &iconName, const KIconColors &colors, KIconLoader *iconLoader)
     : mIconName(iconName)
-    , d(new KIconEnginePrivate{iconLoader, true, colors})
+    , d(new KIconEnginePrivate{iconLoader, true, colors, {}})
 {
 }
 
@@ -48,22 +51,18 @@ KIconEngine::~KIconEngine()
 
 static inline int qIconModeToKIconState(QIcon::Mode mode)
 {
-    int kstate;
     switch (mode) {
     case QIcon::Normal:
-        kstate = KIconLoader::DefaultState;
-        break;
+        return KIconLoader::DefaultState;
     case QIcon::Active:
-        kstate = KIconLoader::ActiveState;
-        break;
+        return KIconLoader::ActiveState;
     case QIcon::Disabled:
-        kstate = KIconLoader::DisabledState;
-        break;
+        return KIconLoader::DisabledState;
     case QIcon::Selected:
-        kstate = KIconLoader::SelectedState;
-        break;
+        return KIconLoader::SelectedState;
+    default:
+        return KIconLoader::DefaultState;
     }
-    return kstate;
 }
 
 QSize KIconEngine::actualSize(const QSize &size, QIcon::Mode mode, QIcon::State state)
@@ -78,7 +77,8 @@ void KIconEngine::paint(QPainter *painter, const QRect &rect, QIcon::Mode mode, 
     }
 
     const qreal dpr = painter->device()->devicePixelRatioF();
-    painter->drawPixmap(rect, pixmap(rect.size() * dpr, mode, state));
+    const QPixmap pix = createPixmap(rect.size() * dpr, dpr, mode, state);
+    painter->drawPixmap(rect, pix);
 }
 
 QPixmap KIconEngine::createPixmap(const QSize &size, qreal scale, QIcon::Mode mode, QIcon::State state)
@@ -102,6 +102,8 @@ QPixmap KIconEngine::createPixmap(const QSize &size, qreal scale, QIcon::Mode mo
 
     const QSize scaledSize = size / scale;
 
+    QString iconPath;
+
     const int kstate = qIconModeToKIconState(mode);
     QPixmap pix = d->mIconLoader->loadScaledIcon(mIconName,
                                                  KIconLoader::Desktop,
@@ -109,9 +111,13 @@ QPixmap KIconEngine::createPixmap(const QSize &size, qreal scale, QIcon::Mode mo
                                                  scaledSize,
                                                  kstate,
                                                  mOverlays,
-                                                 nullptr,
+                                                 &iconPath,
                                                  false,
                                                  d->mCustomColors ? std::make_optional(d->mColors) : std::nullopt);
+
+    if (!iconPath.isEmpty() && !d->mActualIconName.isEmpty()) {
+        d->mActualIconName = QFileInfo(iconPath).completeBaseName();
+    }
 
     if (pix.size() == size) {
         return pix;
@@ -142,10 +148,21 @@ QString KIconEngine::iconName()
 QString KIconEngine::iconName() const
 #endif
 {
-    if (!d->mIconLoader || !d->mIconLoader->hasIcon(mIconName)) {
+    if (!d->mActualIconName.isEmpty()) {
+        return d->mActualIconName;
+    }
+
+    if (!d->mIconLoader) {
         return QString();
     }
-    return mIconName;
+
+    const QString iconPath = KIconLoaderPrivate::get(d->mIconLoader)->preferredIconPath(mIconName);
+    if (iconPath.isEmpty()) {
+        return QString();
+    }
+
+    d->mActualIconName = QFileInfo(iconPath).completeBaseName();
+    return d->mActualIconName;
 }
 
 Q_GLOBAL_STATIC_WITH_ARGS(QList<QSize>,

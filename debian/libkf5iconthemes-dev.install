@@ -1,5 +1,4 @@
 usr/include/KF5/KIconThemes/
-usr/include/KF5/kiconthemes_version.h
 usr/lib/*/cmake/KF5IconThemes/
 usr/lib/*/libKF5IconThemes.so
 usr/lib/*/qt5/mkspecs/modules/qt_KIconThemes.pri
